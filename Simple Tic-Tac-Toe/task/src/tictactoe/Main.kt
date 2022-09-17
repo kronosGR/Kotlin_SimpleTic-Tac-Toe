@@ -2,7 +2,7 @@ package tictactoe
 
 fun hasSpace(arr: List<String>): Boolean {
     for (i in arr.indices) {
-        if (arr[i] == "_") return true
+        if (arr[i] == " ") return true
     }
     return false
 }
@@ -37,19 +37,19 @@ fun checkGame(array: List<String>): Boolean {
             return true
         }
         //  else game not finished
-        else if (countP(array, "X") - countP(array, "O") == 0) println("Game not finished");
-        else println("Impossible");
+//        else if (countP(array, "X") - countP(array, "O") == 0) println("Game not finished");
+//        else println("Impossible");
     } else {
         // check X if has 3
-        return if (hasWon(array, "X")) {
+        if (hasWon(array, "X")) {
             println("X wins")
-            true
+            return true
         } else if (hasWon(array, "O")) {
             println("O wins")
-            true
+            return true
         } else {
             println("Draw")
-            true
+            return true
         }
     }
     return false
@@ -86,9 +86,10 @@ fun isNumber(str: String?): Boolean {
 
 fun main() {
     // write your code here
-    val input = readln()
+    val array = mutableListOf<String>(" ", " ", " ", " ", " ", " ", " ", " ", " ")
+    var turn = "X"
 
-    val array: MutableList<String> = input.toCharArray().map { it.toString() }.toMutableList()
+
     printBoard(array)
     // val result = checkGame(array)
     while (true) {
@@ -110,16 +111,21 @@ fun main() {
 
 
         val index = x - 1 + (y - 1) * 3
-        if (index < array.count()) {
 
-            if (!array[index].equals("_")) {
-                println("This cell is occupied! Choose another one!")
-                continue
-            } else {
-                array[index] = "X"
-                printBoard(array)
-                break
-            }
+        if (!array[index].equals(" ")) {
+            println("This cell is occupied! Choose another one!")
+            continue
         }
+        array[index] = turn
+
+        printBoard(array);
+        if (checkGame(array)) break;
+
+        if (turn == "X") {
+            turn = "O";
+        } else {
+            turn = "X";
+        }
+
     }
 }
